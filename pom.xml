@@ -53,8 +53,20 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>com.github.calimero</groupId>
+			<artifactId>calimero-core</artifactId>
+			<version>2.4</version>
+		</dependency>
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<name>jcenter</name>
+			<id>jcenter</id>
+			<url>https://jcenter.bintray.com/</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
