@@ -2,7 +2,7 @@ package org.sowatt.sowattweb.domain;
 
 import tuwien.auto.calimero.datapoint.Datapoint;
 
-public class StateDataPoint<E> {
+public class DataPointState<E> {
     private Datapoint datapoint;
     private E value;
 
@@ -10,7 +10,7 @@ public class StateDataPoint<E> {
         return datapoint;
     }
 
-    public StateDataPoint<E> setDatapoint(Datapoint datapoint) {
+    public DataPointState<E> setDatapoint(Datapoint datapoint) {
         this.datapoint = datapoint;
         return this;
     }
@@ -19,7 +19,7 @@ public class StateDataPoint<E> {
         return value;
     }
 
-    public StateDataPoint<E> setValue(E value) {
+    public DataPointState<E> setValue(E value) {
         this.value = value;
         return this;
     }
