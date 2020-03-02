@@ -16,7 +16,7 @@ import com.google.api.services.sheets.v4.model.ValueRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sowatt.sowattweb.domain.ButtonState;
-import org.sowatt.sowattweb.domain.Switch2RockerButtonPosition;
+import org.sowatt.sowattweb.domain.types.Switch2RockerButtonPosition;
 import org.sowatt.sowattweb.web.rest.StateDataPointsResource;
 import org.springframework.stereotype.Service;
 import tuwien.auto.calimero.GroupAddress;
@@ -103,6 +103,8 @@ public class GoogleSpreadSheetDatabase {
                     EnOceanDevice.parseAddress(enOceanId),
                     null,
                     EEPIdentifier.parse("F60201"));
+
+
             Map<Switch2RockerButtonPosition, ButtonState> switch2RockerButtonsPositionDatapointMap = enOceanDeviceRockerMap.get(enOceanDevice);
             if (switch2RockerButtonsPositionDatapointMap == null) {
                 switch2RockerButtonsPositionDatapointMap = new HashMap<>();

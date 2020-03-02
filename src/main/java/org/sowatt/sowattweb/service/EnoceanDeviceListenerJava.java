@@ -1,16 +1,15 @@
 package org.sowatt.sowattweb.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sowatt.sowattweb.domain.ButtonState;
-import org.sowatt.sowattweb.domain.Switch2RockerButtonPosition;
+import org.sowatt.sowattweb.domain.types.Switch2RockerButtonPosition;
 import org.sowatt.sowattweb.integration.KNXProcessCommunicationWrapper;
 import org.sowatt.sowattweb.repository.GoogleSpreadSheetDatabase;
 import org.sowatt.sowattweb.web.rest.StateDataPointsResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import tuwien.auto.calimero.KNXException;
 import tuwien.auto.calimero.datapoint.Datapoint;
 import uk.co._4ng.enocean.communication.Connection;
@@ -18,7 +17,6 @@ import uk.co._4ng.enocean.communication.DeviceListener;
 import uk.co._4ng.enocean.communication.DeviceValueListener;
 import uk.co._4ng.enocean.devices.DeviceManager;
 import uk.co._4ng.enocean.devices.EnOceanDevice;
-import uk.co._4ng.enocean.eep.EEP;
 import uk.co._4ng.enocean.eep.EEPAttribute;
 import uk.co._4ng.enocean.eep.EEPAttributeChangeJob;
 import uk.co._4ng.enocean.eep.eep26.attributes.EEP26RockerSwitch2RockerAction;
@@ -30,7 +28,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class EnoceanDeviceListener implements DeviceListener, DeviceValueListener {
+public class EnoceanDeviceListenerJava implements DeviceListener, DeviceValueListener {
 
     private DeviceManager deviceManager;
     private Connection connection;
@@ -43,7 +41,7 @@ public class EnoceanDeviceListener implements DeviceListener, DeviceValueListene
     private KNXProcessCommunicationWrapper knxProcessCommunicationWrapper;
 
 
-    private static final Logger logger = LoggerFactory.getLogger(EnoceanDeviceListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(EnoceanDeviceListenerJava.class);
 
     @PostConstruct
     private void initEnoceanDevices() {
@@ -62,7 +60,6 @@ public class EnoceanDeviceListener implements DeviceListener, DeviceValueListene
             // create a device listener for handling device updates
 
             deviceManager.addDeviceListener(this);
-            deviceManager.addDeviceValueListener(this);
 
             // register a rocker switch
             for (EnOceanDevice enOceanDevice : googleSpreadSheetDatabase.getAllRockerSwitch()

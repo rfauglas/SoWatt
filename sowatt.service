@@ -1,0 +1,9 @@
+[Unit]
+Description="SoWatt glues EnOcean devices to KNX Data points"
+[Service]
+Type=simple
+ExecStart=/usr/bin/java -jar sowatt-web-0.0.1-SNAPSHOT.jar --knx.local.host=192.168.1.5
+WorkingDirectory=/home/pi
+User=pi
+[Install]
+WantedBy=multi-user.target
