@@ -4,7 +4,7 @@ import java.time.Duration
 import javax.persistence.*
 
 @Entity
-data class ToggleCommand(@Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long, @OneToOne  var button: Button, @ManyToMany() val switchList: MutableList<SwitchDP> = mutableListOf<SwitchDP>()) {
+data class ToggleCommand(@Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long, @OneToOne  var button: Button, @ManyToMany() var switchList: MutableList<SwitchDP> = mutableListOf<SwitchDP>()) {
 
 
 

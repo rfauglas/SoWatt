@@ -42,7 +42,7 @@
     <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
     <logger name="org.bson" level="WARN"/>
     <logger name="org.hibernate.validator" level="WARN"/>
-    <logger name="org.hibernate.SQL" level="DEBUG" />
+    <logger name="org.hibernate.SQL" level="INFO" />
     <logger name="org.hibernate.type.descriptor.sql" level="TRACE" />
     <logger name="org.mongodb.driver" level="WARN"/>
     <logger name="org.reflections" level="WARN"/>
@@ -50,7 +50,8 @@
     <logger name="org.springframework.web" level="WARN"/>
     <logger name="org.springframework.security" level="WARN"/>
     <logger name="org.springframework.cache" level="WARN"/>
-    <logger name="org.springframework.data" level="DEBUG"/>
+    <logger name="org.springframework.data" level="INFO"/>
+    <logger name="org.springframework.test.context.transaction" level="INFOq" />
     <logger name="org.thymeleaf" level="WARN"/>
     <logger name="org.xnio" level="WARN"/>
     <logger name="springfox" level="WARN"/>

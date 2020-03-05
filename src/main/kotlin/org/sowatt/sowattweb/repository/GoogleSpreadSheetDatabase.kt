@@ -16,7 +16,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.sowatt.sowattweb.domain.*
 import org.sowatt.sowattweb.domain.types.Switch2RockerButtonPosition
-import org.sowatt.sowattweb.web.rest.StateDataPointsResource
 import org.springframework.stereotype.Service
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.Propagation
@@ -29,7 +28,6 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStreamReader
 import java.security.GeneralSecurityException
-import java.time.Duration
 import java.util.*
 import javax.annotation.PostConstruct
 import javax.persistence.EntityManager
@@ -80,7 +78,7 @@ class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, privat
                 //Stop uppon empty line
                 if ("" == enOceanId) break
                 val controlPoint = controlPointRepository.findByEnoceanId(enOceanId)
-                        ?: entityManager.merge(ControlPoint(0, enOceanId, setOf()))
+                        ?: entityManager.merge(ControlPoint(0, enOceanId))
 
                 val buttonPosition: Switch2RockerButtonPosition = Switch2RockerButtonPosition.valueOf(row[GsEnOceanColumn.BUTTON_POSITION.ordinal])
                 val button: Button = buttonRepository.getButton(controlPoint.enoceanId, buttonPosition)
@@ -119,7 +117,7 @@ class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, privat
      */
     @Throws(IOException::class)
     private fun getCredentials(HTTP_TRANSPORT: NetHttpTransport): Credential { // Load client secrets.
-        val `in` = StateDataPointsResource::class.java.getResourceAsStream(CREDENTIALS_FILE_PATH)
+        val `in` = GoogleSpreadSheetDatabase::class.java.getResourceAsStream(CREDENTIALS_FILE_PATH)
                 ?: throw FileNotFoundException("Resource not found: $CREDENTIALS_FILE_PATH")
         val clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(`in`))
         // Build flow and trigger user authorization request.

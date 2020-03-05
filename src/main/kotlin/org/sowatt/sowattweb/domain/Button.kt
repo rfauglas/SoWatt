@@ -8,7 +8,9 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-class ControlPoint(@Id @GeneratedValue  var id: Long, var enoceanId: String, @OneToMany var buttons: Set<Button>) {
+data class ControlPoint(@Id @GeneratedValue  var id: Long, var enoceanId: String) {
+    @OneToMany(fetch = FetchType.LAZY)
+    lateinit var buttons: Set<Button>
 
 
     fun toEnoceanDevice():EnOceanDevice {
@@ -20,5 +22,5 @@ class ControlPoint(@Id @GeneratedValue  var id: Long, var enoceanId: String, @On
 }
 
 @Entity
-class Button(@Id @GeneratedValue  var id: Long, @ManyToOne var controlPoint: ControlPoint, var buttonPosition: Switch2RockerButtonPosition, var isPressed:Boolean=false, var datePressed:LocalDateTime?=null
+data class Button(@Id @GeneratedValue  var id: Long, @ManyToOne var controlPoint: ControlPoint, var buttonPosition: Switch2RockerButtonPosition, var isPressed:Boolean=false, var datePressed:LocalDateTime?=null
 )
