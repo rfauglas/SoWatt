@@ -27,6 +27,8 @@
     </root>
 -->
 
+    <logger name="org.sowatt" level="ERROR" />
+
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>
     <logger name="javax.management.remote" level="WARN"/>

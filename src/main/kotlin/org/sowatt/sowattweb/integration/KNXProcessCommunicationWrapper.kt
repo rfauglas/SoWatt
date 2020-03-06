@@ -31,7 +31,7 @@ class KNXProcessCommunicationWrapper : ProcessCommunicator {
 //    private Logger logger;
     private val logger = LoggerFactory.getLogger(KNXProcessCommunicationWrapper::class.java)
     private var processCommunicator: ProcessCommunicator? = null
-//    @PostConstruct
+    @PostConstruct
     @Throws(KNXException::class, InterruptedException::class)
     private fun initProcessCommmunicator() {
         val remoteEP = InetSocketAddress(remoteHost, 3671)

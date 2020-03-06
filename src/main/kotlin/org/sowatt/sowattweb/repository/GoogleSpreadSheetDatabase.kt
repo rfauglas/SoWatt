@@ -45,9 +45,7 @@ class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, privat
     //Since EnOceanDevice does not implement equals/hashCode properly, we use a tree map.
     private val enOceanDeviceRockerMap: MutableMap<EnOceanDevice, MutableMap<Switch2RockerButtonPosition, ButtonState>> = TreeMap(Comparator { left, right -> left.addressHex.compareTo(right.addressHex) })
 
-    @PostConstruct
-    @Transactional(propagation = Propagation.REQUIRED)
-    @Throws(GeneralSecurityException::class, IOException::class)
+
     public fun init() {
         val HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport()
         // Build a new authorized API client service.
@@ -88,7 +86,7 @@ class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, privat
                         ToggleCommand(0,button)
                 val switchDP = knxDatapointRepository.findByGroupAddress(groupAddressID) as SwitchDP
                 toggleCommand.switchList.add(switchDP)
-//                switchDP.
+                entityManager.persist(button.controlPoint)
                 entityManager.persist(toggleCommand)
             }
 
