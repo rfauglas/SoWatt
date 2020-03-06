@@ -41,11 +41,6 @@ class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, privat
         DEVICE_ID, BUTTON_POSITION, DATAPOINT_NAME, KNX_ADDRESS
     }
 
-    private val knxMap: MutableMap<Int, Datapoint> = HashMap()
-    //Since EnOceanDevice does not implement equals/hashCode properly, we use a tree map.
-    private val enOceanDeviceRockerMap: MutableMap<EnOceanDevice, MutableMap<Switch2RockerButtonPosition, ButtonState>> = TreeMap(Comparator { left, right -> left.addressHex.compareTo(right.addressHex) })
-
-
     public fun init() {
         val HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport()
         // Build a new authorized API client service.
@@ -93,18 +88,6 @@ class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, privat
         }
 
     }
-
-    fun getDataPointById(address: Int): Datapoint? {
-        return knxMap[address]
-    }
-
-    fun findButtonStateBy(enOceanDevice: EnOceanDevice?, position: Switch2RockerButtonPosition?): ButtonState? {
-//        return enOceanDeviceRockerMap[enOceanDevice][position]
-        return null
-    }
-
-    val allRockerSwitch: Set<EnOceanDevice>
-        get() = enOceanDeviceRockerMap.keys
 
     /**
      * Creates an authorized Credential object.
