@@ -30,11 +30,10 @@ import java.io.InputStreamReader
 import java.security.GeneralSecurityException
 import java.util.*
 import javax.annotation.PostConstruct
-import javax.persistence.EntityManager
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, private val transactionManager: PlatformTransactionManager, private val switchRepository: KnxDatapointRepository, private val controlPointRepository: ControlPointRepository, private val buttonRepository: ButtonRepository, private val toggleCommandRepository: ToggleCommandRepository, private val knxDatapointRepository: KnxDatapointRepository) {
+class GoogleSpreadSheetDatabase(private val switchRepository: KnxDatapointRepository, private val controlPointRepository: ControlPointRepository, private val buttonRepository: ButtonRepository, private val toggleCommandRepository: ToggleCommandRepository, private val knxDatapointRepository: KnxDatapointRepository) {
     private val logger = LoggerFactory.getLogger(GoogleSpreadSheetDatabase::class.java) as Logger
 
     internal enum class GsEnOceanColumn {
@@ -50,15 +49,14 @@ class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, privat
 
         val spreadsheetId = "18R2--HkLRexIaAEIpupE0yf0cq-kqAYQ-EARl2lUmpg"
 
-        val transactionTemplate: TransactionTemplate = TransactionTemplate(transactionManager);
-        transactionTemplate.execute {
+
             val KNX_RANGE = "KNX!A2:D35"
             for (row in values[spreadsheetId, KNX_RANGE].execute().getValues())
                 when (DatapointType.valueOf(row[3] as String)) {
-                    DatapointType.SWITCH -> this.entityManager.persist(
-                            SwitchDP(0, row[0] as String, (row[1] as String).toInt(), row[2] as String))
-                    DatapointType.SHUTTER -> this.entityManager.persist(
-                            ShutterDP(0, row[0] as String, (row[1] as String).toInt(), row[2] as String))
+                    DatapointType.SWITCH -> switchRepository.save(
+                            SwitchDP(null, row[0] as String, (row[1] as String).toInt(), row[2] as String))
+                    DatapointType.SHUTTER -> switchRepository.save(
+                            ShutterDP(null, row[0] as String, (row[1] as String).toInt(), row[2] as String))
                 }
 
             val ENOCEAN_SWITCH_ROCKER_RANGE = "Enocean-switch!A2:D100"
@@ -71,21 +69,18 @@ class GoogleSpreadSheetDatabase(private val entityManager: EntityManager, privat
                 //Stop uppon empty line
                 if ("" == enOceanId) break
                 val controlPoint = controlPointRepository.findByEnoceanId(enOceanId)
-                        ?: entityManager.merge(ControlPoint(0, enOceanId))
+                        ?: ControlPoint(0, enOceanId)
 
                 val buttonPosition: Switch2RockerButtonPosition = Switch2RockerButtonPosition.valueOf(row[GsEnOceanColumn.BUTTON_POSITION.ordinal])
                 val button: Button = buttonRepository.getButton(controlPoint.enoceanId, buttonPosition)
-                        ?: entityManager.merge(Button(0, controlPoint, buttonPosition))
+                        ?: Button(0, controlPoint, buttonPosition)
 
                 val toggleCommand: ToggleCommand=toggleCommandRepository.findByButton(button)?:
                         ToggleCommand(0,button)
                 val switchDP = knxDatapointRepository.findByGroupAddress(groupAddressID) as SwitchDP
                 toggleCommand.switchList.add(switchDP)
-                entityManager.persist(button.controlPoint)
-                entityManager.persist(toggleCommand)
-            }
 
-        }
+            }
 
     }
 

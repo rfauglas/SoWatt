@@ -1,11 +1,7 @@
 package org.sowatt.sowattweb.domain
 
+import org.springframework.data.annotation.Id
 import java.time.Duration
-import javax.persistence.*
 
-@Entity
-data class ToggleCommand(@Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long, @OneToOne  var button: Button, @ManyToMany() var switchList: MutableList<SwitchDP> = mutableListOf<SwitchDP>()) {
-
-
-
+data class ToggleCommand(@Id  val id: Long, var button: Button, var switchList: MutableList<SwitchDP> = mutableListOf<SwitchDP>()) {
 }

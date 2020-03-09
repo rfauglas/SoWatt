@@ -16,6 +16,8 @@ buildscript {
 	}
 }
 
+apply(plugin="idea")
+
 apply(plugin = "kotlin-jpa")
 group = "org.sowatt"
 version = "2.0"
@@ -30,14 +32,14 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.data:spring-data-rest-hal-browser")
-    runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
